@@ -12,29 +12,31 @@ import java.net.Socket;
  */
 public class SocketCreate {
 
-    public static ServerSocket skt;
+    public static ServerSocket socket;
     private Socket client;
     private BufferedReader bufferedReader;
     private PrintStream printStream;
 
     SocketCreate() throws IOException {
-        client=skt.accept();
-        bufferedReader=new BufferedReader(new InputStreamReader(client.getInputStream()));
-        printStream=new PrintStream(client.getOutputStream());
+        client = socket.accept();
+        bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        printStream = new PrintStream(client.getOutputStream());
     }
 
     public String readfromclient() throws IOException {
-        String buf=bufferedReader.readLine();
-        if(buf!=null){
-            System.out.println("Read from client successfully");
+        String buf = bufferedReader.readLine();
+        if (buf != null) {
             return buf;
         }
-        System.out.println("Unsuccessfull read");
         return "";
     }
 
-    public void writetoclient(String msg){
+    public void writetoclient(String msg) {
         printStream.print(msg);
+        printStream.flush();
     }
 
+    public void close() throws IOException {
+        client.close();
+    }
 }
